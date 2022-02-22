@@ -3,9 +3,9 @@ import { StylesProvider } from '@material-ui/core/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Login from 'pages/Login';
 import Carrinho from 'pages/Carrinho';
 import Feira from 'pages/Feira';
+import Router from 'routes';
 
 const theme = createTheme({
   palette: {
@@ -22,7 +22,7 @@ ReactDOM.render(
   <React.StrictMode>
     <StylesProvider injectFirst>
       <ThemeProvider theme={theme}>
-        <Feira/>
+        <Router/>
       </ThemeProvider>
     </StylesProvider>
   </React.StrictMode>,

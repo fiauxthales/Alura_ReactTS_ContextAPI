@@ -9,8 +9,18 @@ import{
   InputLabel,
   InputAdornment
 } from '@material-ui/core';
+import React from 'react';
+import {useHistory} from 'react-router-dom';
 
-function Login(){
+interface LoginProps{
+  nome: string,
+  setNome: React.Dispatch<React.SetStateAction<string>>,
+  saldo: number | string,
+  setSaldo: React.Dispatch<React.SetStateAction<number | string>>
+}
+
+function Login(props: LoginProps){
+  const history = useHistory();
   return(
     <Container>
       <Titulo>
@@ -21,6 +31,8 @@ function Login(){
           Nome
         </InputLabel>
         <Input
+          value={props.nome}
+          onChange={(event) => props.setNome(event.target.value)}
           type="text"
         />
       </InputContainer>
@@ -29,8 +41,10 @@ function Login(){
           Saldo
         </InputLabel>
         <Input
-        type="number"
-        startAdornment={
+          value={props.saldo}
+          onChange={(event) => props.setSaldo(event.target.value)}
+          type="number"
+          startAdornment={
           <InputAdornment position="start">
             R$
           </InputAdornment>
@@ -40,6 +54,7 @@ function Login(){
       <Button
         variant="contained"
         color="primary"
+        onClick={()=> history.push('/feira')}
       >
         Avançar
       </Button>
