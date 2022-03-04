@@ -3,8 +3,6 @@ import { StylesProvider } from '@material-ui/core/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Carrinho from 'pages/Carrinho';
-import Feira from 'pages/Feira';
 import Router from 'routes';
 
 const theme = createTheme({

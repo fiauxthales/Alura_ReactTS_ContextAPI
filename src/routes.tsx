@@ -3,6 +3,7 @@ import Login from 'pages/Login';
 import Feira from 'pages/Feira';
 import Carrinho from 'pages/Carrinho';
 import { useState } from 'react';
+import { UsuarioContext } from 'common/context/Usuario';
 
 
 function Router(){
@@ -12,11 +13,9 @@ function Router(){
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <Login
-            nome={nome}
-            setNome={setNome}
-            saldo={saldo}
-            setSaldo={setSaldo}/>
+          <UsuarioContext.Provider value={{nome, setNome, saldo, setSaldo }}>
+            <Login/>
+          </UsuarioContext.Provider>
         </Route>
         <Route path="/feira">
           <Feira/>
