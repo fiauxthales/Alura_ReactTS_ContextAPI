@@ -11,50 +11,48 @@ import{
 } from '@material-ui/core';
 import {useHistory} from 'react-router-dom';
 import {UsuarioContext} from 'common/context/Usuario';
-
-
+import { useContext } from 'react';
 
 function Login(){
   const history = useHistory();
+  const usuario = useContext(UsuarioContext);
   return(
     <Container>
-      <UsuarioContext.Consumer>
-        {(usuario) => usuario &&(<><Titulo>
-        Insira o seu nome
-        </Titulo>
-        <InputContainer>
-          <InputLabel>
-            Nome
-          </InputLabel>
-          <Input
-            value={usuario.nome}
-            onChange={(event) => usuario.setNome(event.target.value)}
-            type="text"
-          />
-        </InputContainer>
-        <InputContainer>
-          <InputLabel>
-            Saldo
-          </InputLabel>
-          <Input
-            value={usuario.saldo}
-            onChange={(event) => usuario.setSaldo(event.target.value)}
-            type="number"
-            startAdornment={
-            <InputAdornment position="start">
-              R$
-            </InputAdornment>
-          }
+      <Titulo>
+      Insira o seu nome
+      </Titulo>
+      <InputContainer>
+        <InputLabel>
+          Nome
+        </InputLabel>
+        <Input
+          value={usuario?.nome}
+          onChange={(event) => usuario?.setNome(event.target.value)}
+          type="text"
         />
-        </InputContainer>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={()=> history.push('/feira')}
-        >
-          Avançar
-        </Button></>)}
-      </UsuarioContext.Consumer>
+      </InputContainer>
+      <InputContainer>
+        <InputLabel>
+          Saldo
+        </InputLabel>
+        <Input
+          value={usuario?.saldo}
+          onChange={(event) => usuario?.setSaldo(event.target.value)}
+          type="number"
+          startAdornment={
+          <InputAdornment position="start">
+            R$
+          </InputAdornment>
+        }
+      />
+      </InputContainer>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={()=> history.push('/feira')}
+      >
+        Avançar
+      </Button>
     </Container>
   )
 }

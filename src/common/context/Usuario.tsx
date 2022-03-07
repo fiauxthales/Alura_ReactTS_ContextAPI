@@ -1,4 +1,15 @@
 import { User } from 'common/types/User';
-import { createContext } from 'react';
+import { createContext, useState } from 'react';
 
 export const UsuarioContext = createContext<User | null>(null);
+UsuarioContext.displayName = "Usuário";
+
+export const UsuarioProvider = ({ children } : {children: JSX.Element}) => {
+  const [nome, setNome] = useState("");
+  const [saldo, setSaldo] = useState<number | string>(0);
+  return(
+    <UsuarioContext.Provider value={{nome, setNome, saldo, setSaldo}}>
+      {children}
+    </UsuarioContext.Provider>
+  )
+}
