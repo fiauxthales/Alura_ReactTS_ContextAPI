@@ -10,7 +10,7 @@ import { Product } from 'common/types/Product';
 function Produto({produto, unidade}:{produto: Product, unidade: string}) {
   const shopCart = useCarrinhoContext();
   if (!shopCart) return null;
-  const {carrinho, adicionarProduto} = shopCart;
+  const { carrinho, adicionarProduto, removerProduto } = shopCart;
   const produtoNoCarrinho = carrinho.find(itemDoCarrinho => itemDoCarrinho.id === produto.id);
   return (
       <Container>
@@ -26,11 +26,13 @@ function Produto({produto, unidade}:{produto: Product, unidade: string}) {
         <div>
           <IconButton
             color="secondary"
+            onClick={()=> removerProduto(produto.id)}
+            disabled={!produtoNoCarrinho}
           >
             <RemoveIcon />
           </IconButton>
           {produtoNoCarrinho?.quantidade || 0}
-          <IconButton onClick={()=> adicionarProduto(produto)}>
+          <IconButton color="primary" onClick={()=> adicionarProduto(produto)}>
             <AddIcon />
           </IconButton>
         </div>
