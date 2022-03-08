@@ -8,9 +8,11 @@ import Produto from 'components/Produto';
 import NavBar from './NavBar';
 import { useContext } from 'react';
 import { UsuarioContext } from 'common/context/Usuario';
+import { Product } from 'common/types/Product';
 
 function Feira(){
   const {nome , saldo} = useContext(UsuarioContext) || {};
+  let novaFeira: Product[] = feira;
   return (
     <Container>
       <NavBar/>
@@ -26,9 +28,9 @@ function Feira(){
           Produtos:
         </h2>
         {
-          feira.map( produto => (
+          novaFeira.map( produto => (
             <Produto
-            unidade={'5'} {...produto}
+            produto={produto} unidade={'5'}
             key={produto.id}            />
           ))}
       </Lista>
