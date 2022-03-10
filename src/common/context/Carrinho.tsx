@@ -1,16 +1,19 @@
+import { Amount } from 'common/types/Amount';
 import { Product } from 'common/types/Product';
 import { ShopCart } from 'common/types/ShopCart';
 import {createContext, useContext, useEffect, useState} from 'react';
+import { usePagamentoContext } from './Pagamento';
+import { UsuarioContext } from './Usuario';
 
 export const CarrinhoContext = createContext<ShopCart|null>(null);
 CarrinhoContext.displayName = "Carrinho";
 
 export const CarrinhoProvider = ({children}: {children: JSX.Element | JSX.Element[]}) => {
   const[carrinho, setCarrinho] = useState<Array<Product>>([]);
-  const[quantidadeProdutos, setQuantidadeProdutos] = useState<number>(0);
+  const[quantidade, setQuantidade] = useState<Amount>({produtos: 0, total: 0});
   return(
     <CarrinhoContext.Provider 
-      value={{carrinho, setCarrinho, quantidadeProdutos, setQuantidadeProdutos}}>
+      value={{carrinho, setCarrinho, quantidade, setQuantidade}}>
       {children}
     </CarrinhoContext.Provider>
   )
@@ -18,15 +21,23 @@ export const CarrinhoProvider = ({children}: {children: JSX.Element | JSX.Elemen
 
 export const useCarrinhoContext = () => {
   const shopCart = useContext(CarrinhoContext);
+  const pagamento = usePagamentoContext();
+  const usuario = useContext(UsuarioContext);
 
   useEffect(()=> {
-    const novaQuantidade = shopCart?.carrinho.reduce((contador, produto)=> contador + produto.quantidade!, 0);
-    shopCart?.setQuantidadeProdutos(novaQuantidade!);
-}, [shopCart]);
+    
+    const novaQuantidade = shopCart?.carrinho.reduce(
+      (contador, produto) => (
+        {produtos: contador.produtos + produto.quantidade!, total: contador.total + (produto.valor * produto.quantidade!)}),
+        {produtos: 0, total: 0}
+      );
+      novaQuantidade!.total = novaQuantidade?.total! * pagamento?.formaPagamento.juros!;
+    shopCart?.setQuantidade(novaQuantidade!);
+}, [shopCart, pagamento]);
 
 
   if(!shopCart) return null;
-  const {carrinho, setCarrinho, quantidadeProdutos, setQuantidadeProdutos} = shopCart;
+  const {carrinho, setCarrinho, quantidade, setQuantidade} = shopCart;
 
 
   function mudarQuantidade(id: string, quantidade: number){
@@ -53,7 +64,10 @@ export const useCarrinhoContext = () => {
       setCarrinho(mudarQuantidade(id, -1));
     }
 
+    function efetuarCompra(){
+      setCarrinho([]);
+      usuario?.setSaldo((saldoAtual) => saldoAtual - shopCart!.quantidade.total);
+    }
 
-
-  return {carrinho, setCarrinho, adicionarProduto, removerProduto, quantidadeProdutos, setQuantidadeProdutos};
+  return {carrinho, setCarrinho, adicionarProduto, removerProduto, quantidade, setQuantidade, efetuarCompra};
 }

@@ -6,7 +6,7 @@ UsuarioContext.displayName = "Usuário";
 
 export function UsuarioProvider({ children }: { children: JSX.Element | JSX.Element[]; }) {
   const [nome, setNome] = useState("");
-  const [saldo, setSaldo] = useState<number | string>(0);
+  const [saldo, setSaldo] = useState<number>(0);
   return (
     <UsuarioContext.Provider value={{ nome, setNome, saldo, setSaldo }}>
       {children}

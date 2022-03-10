@@ -17,14 +17,14 @@ function Router(){
               <Login/>
           </Route>
           <CarrinhoProvider>
-            <Route path="/feira">
-              <Feira/>
-            </Route>
             <PagamentoProvider>
-              <Route path="/carrinho">
-                <Carrinho/>
+              <Route path="/feira">
+                <Feira/>
               </Route>
-            </PagamentoProvider>
+                <Route path="/carrinho">
+                  <Carrinho/>
+                </Route>
+              </PagamentoProvider>
           </CarrinhoProvider>
         </UsuarioProvider>
       </Switch>

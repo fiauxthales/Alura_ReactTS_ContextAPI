@@ -10,12 +10,12 @@ export default function NavBar(){
   const shopCart = useCarrinhoContext();
   const history = useHistory();
   if (!shopCart) return null;
-  const { quantidadeProdutos } = shopCart;
+  const { quantidade } = shopCart;
   return (
     <Nav>
       <Logo/>
-      <IconButton disabled={quantidadeProdutos===0} onClick={()=> history.push('/carrinho')}>
-        <Bagde color="primary" badgeContent={quantidadeProdutos}>
+      <IconButton disabled={quantidade.produtos===0} onClick={()=> history.push('/carrinho')}>
+        <Bagde color="primary" badgeContent={quantidade.produtos}>
           <ShoppingCartIcon/>
         </Bagde>
       </IconButton>
